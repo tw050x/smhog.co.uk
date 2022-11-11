@@ -1,0 +1,11 @@
+@import "~@application/theme/color.scss";
+
+#application section header {
+  @media (min-width: 640px) { text-align: center; }
+  @media (min-width: 640px) {
+    h1:before {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

@@ -1,0 +1,21 @@
+
+# directories
+.script/
+.vscode/
+application/
+node_modules/
+
+# files
+.dockerignore
+.env
+.env.example
+.gitignore
+.gitlab-ci.yml
+.gitmodules
+.todo
+docker-compose.override.yml
+docker-compose.yml
+readme.md
+webpack.bootstrap.js
+webpack.mount.js
+webpackfile.js

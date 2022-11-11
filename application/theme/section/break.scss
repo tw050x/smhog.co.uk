@@ -1,0 +1,44 @@
+@import "~@application/theme/color.scss";
+
+#application {
+  section {
+    div.section-break {
+      overflow: hidden;
+      padding: 0;
+
+      div.after-container,
+      div.before-container {
+        svg {
+          height: 20vw;
+          width: 100%;
+        }
+      }
+
+      div.swoosh {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+
+        &.white {
+          fill: #ffffff;
+        }
+
+        &.flip {
+          transform: scaleY(-1);
+        }
+
+        &.reverse {
+          transform: scaleX(-1);
+        }
+
+        &.flip.reverse {
+          transform: scale(-1, -1);
+        }
+      }
+
+      & > aside.background {
+        position: absolute;
+      }
+    }
+  }
+}

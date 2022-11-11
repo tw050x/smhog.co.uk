@@ -1,0 +1,63 @@
+{
+  "author": "richard kielty",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.3",
+    "change-case": "^3.1.0",
+    "koa": "^2.7.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "throttle-debounce": "^2.1.0",
+    "universal-base64": "^2.0.1",
+    "vee-validate": "^2.1.5",
+    "vue": "^2.6.8",
+    "vue-analytics": "^5.16.2",
+    "vue-check-view": "^0.2.3",
+    "vue-router": "^3.0.2",
+    "vue-scroll": "^2.1.9",
+    "vue-server-renderer": "^2.6.6",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@types/node": "^10.14.6",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^0.28.11",
+    "dotenv": "^5.0.1",
+    "filemanager-webpack-plugin": "^2.0.5",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.12.0",
+    "nodemon": "^1.18.11",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.2.3",
+    "typescript": "^3.4.5",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "description": "Project repository for South Manchester Helen O'Grady Drama Academy",
+  "license": "UNLICENSED",
+  "name": "@helen-ogrady/south-manchester",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.fifthrealm.io/helen-ogrady/south-manchester.git"
+  },
+  "scripts": {
+    "compile": ".script/compile.sh",
+    "docker": ".script/docker.sh",
+    "docs": ".script/docs.sh",
+    "remove": ".script/remove.sh",
+    "webpack": ".script/webpack.sh",
+    "webpack-dev-server": ".script/webpack-dev-server.sh"
+  },
+  "version": "0.0.1"
+}

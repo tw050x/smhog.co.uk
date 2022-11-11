@@ -1,0 +1,36 @@
+@import "~@application/theme/color.scss";
+
+#application {
+  section {
+    &:not(:last-child):after,
+    &:not(:last-child)::after {
+      content: '';
+      border-bottom: 5px dotted #fec700;
+      display: block;
+      margin: 1.5rem auto;
+      max-width: 640px;
+      width: 50%;
+      @media (min-width: 640px) { width: 50%; }
+    }
+
+    &.section-content-padding {
+      &:first-child {
+        padding-top: 1.5rem;
+        @media (min-width: 640px) { padding-top: 2rem; }
+        @media (min-width: 960px) { padding-top: 2.5rem; }
+      }
+
+      &:last-child {
+        padding-bottom: 1.5rem;
+        @media (min-width: 640px) { padding-bottom: 2rem; }
+        @media (min-width: 960px) { padding-bottom: 2.5rem; }
+      }
+
+      & > * {
+        padding: 1.5rem 0.5rem;
+        @media (min-width: 640px) { padding: 2rem 0; }
+        @media (min-width: 960px) { padding: 2.5rem 0; }
+      }
+    }
+  }
+}

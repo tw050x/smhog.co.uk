@@ -1,0 +1,18 @@
+
+# cdn
+cdn/
+
+# environment
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# node
+node_modules/
+
+# log files
+*.access.log
+*.error.log
+access.log
+error.log

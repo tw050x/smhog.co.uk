@@ -1,0 +1,35 @@
+@import "~@application/theme/color.scss";
+
+#application .navigation-bar {
+  background: $primary-color;
+  background: -moz-radial-gradient(circle at center, #fec700 0%, #ff9500 100%);
+  background: -webkit-radial-gradient(circle at center, #fec700 0%, #ff9500 100%);
+  background: radial-gradient(circle at center, #fec700 0%, #ff9500 100%);
+  box-shadow: 0 0 10px -5px $black;
+  .menu-container .menu-activator,
+  .menu-container .menu-activator:hover,
+  .menu-container .menu-activator.active {
+    color: $secondary-color;
+  }
+}
+
+#application .navigation-bar #main-navigation-menu a.menu-link {
+  color: $black;
+  text-align: left;
+
+  &:hover {
+    background: #efefef;
+    cursor: pointer;
+  }
+}
+
+#application .navigation-bar .navigation-breadcrumbs {
+  color: $secondary-color;
+  a.breadcrumb {
+    cursor: pointer;
+    &:hover {
+      color: $secondary-color;
+      text-decoration: underline;
+    }
+  }
+}

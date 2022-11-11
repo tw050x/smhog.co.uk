@@ -1,0 +1,175 @@
+
+# stages
+stages:
+  - prerequisites
+  - audit
+  - compile and bundle
+  - build
+  - staging
+  - production
+
+# jobs
+install dependencies:
+  artifacts:
+    expire_in: 1 day
+    name: $CI_COMMIT_REF_NAME-$CI_JOB_NAME
+    paths:
+      - node_modules/
+  before_script:
+    - chmod u+x .script/*
+  image: node:latest
+  script:
+    - npm install
+    - npm audit fix
+  stage: prerequisites
+  variables:
+    NODE_ENV: development
+
+bundle marketing application:
+  artifacts:
+    name: $CI_COMMIT_REF_NAME-$CI_JOB_NAME
+    paths:
+      - .env
+      - cdn/public
+      - service/marketing
+  before_script:
+    - echo GOOGLE_ANALYTICS_TRACKING_ID=$GOOGLE_ANALYTICS_TRACKING_ID >> .env
+    - echo SERVICE_MARKETING_HTTP_PORT=$SERVICE_MARKETING_HTTP_PORT >> .env
+    - echo SERVICE_MARKETING_HTTPS_PORT=$SERVICE_MARKETING_HTTPS_PORT >> .env
+  image: node:latest
+  script:
+    - npm run webpack
+  stage: compile and bundle
+  variables:
+    NODE_ENV: production
+
+compile marketing service:
+  artifacts:
+    name: $CI_COMMIT_REF_NAME-$CI_JOB_NAME
+    paths:
+      - service/marketing
+      - package.json
+      - package-lock.json
+  image: node:latest
+  script:
+    - npm run compile
+  stage: compile and bundle
+  variables:
+    NODE_ENV: production
+
+build marketing service container:
+  image: docker:latest
+  script:
+    - docker build --file service/marketing/Dockerfile --tag $CI_REGISTRY_IMAGE/marketing:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE/marketing:latest .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE/marketing:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/marketing:latest
+  services:
+    - docker:18.09-dind
+  stage: build
+
+deploy marketing service container (staging):
+  before_script:
+    - apk add --update openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$STAGING_SERVER_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $STAGING_SERVER_IP >> ~/.ssh/known_hosts
+  environment:
+    name: staging
+  image: alpine:latest
+  script:
+    - echo CI_REGISTRY=$CI_REGISTRY >> .env
+    - echo SERVICE_MARKETING_HTTP_PORT=$SERVICE_MARKETING_HTTP_PORT >> .env
+    - echo SERVICE_MARKETING_HTTPS_PORT=$SERVICE_MARKETING_HTTPS_PORT >> .env
+    - echo TRAEFIK_APPLICATION_FRONT_END_RULE=$STAGING_TRAEFIK_APPLICATION_FRONT_END_RULE >> .env
+    - echo TRAEFIK_APPLICATION_PRIVATE_NETWORK=$STAGING_TRAEFIK_APPLICATION_PRIVATE_NETWORK >> .env
+    - echo TRAEFIK_APPLICATION_PUBLIC_NETWORK=$STAGING_TRAEFIK_APPLICATION_PUBLIC_NETWORK >> .env
+    - scp -r .env $STAGING_SERVER_USER@$STAGING_SERVER_IP:~/service/application/.env
+    - scp -r docker-compose.yml $STAGING_SERVER_USER@$STAGING_SERVER_IP:~/service/application/docker-compose.yml
+    - ssh $STAGING_SERVER_USER@$STAGING_SERVER_IP "
+        cd ~/service/application
+      ; docker login -u $GITLAB_USER_USERNAME -p $GITLAB_USER_PASSWORD $CI_REGISTRY
+      ; docker-compose pull
+      ; docker-compose stop
+      ; docker-compose rm --force
+      ; "
+    - ssh $STAGING_SERVER_USER@$STAGING_SERVER_IP "
+        cd ~/service/application
+      ; docker-compose -f ~/service/application/docker-compose.yml --project-name smhog up --detach
+      ; "
+    # - ssh $STAGING_SERVER_USER@$STAGING_SERVER_IP:~/service/application "
+    #     cd ~/service/application
+    #   ; docker system prune -af
+    #   ; docker volume prune -f
+    #   ; rm .env
+    #   ; rm docker-compose.yml
+    #   ; "
+  stage: staging
+
+upload marketing application bundle (staging):
+  environment:
+    name: staging
+  image:
+    entrypoint: [ "/bin/sh", "-c" ]
+    name: minio/mc
+  script:
+    - mc config host add smhog $STAGING_CDN_URL $STAGING_MINIO_ACCESS_KEY $STAGING_MINIO_SECRET_KEY
+    - mc mirror cdn/public smhog/public --overwrite --remove
+  stage: staging
+
+marketing service container deploy (production):
+  before_script:
+    - apk add --update openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$PRODUCTION_SERVER_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $PRODUCTION_SERVER_IP >> ~/.ssh/known_hosts
+  environment:
+    name: production
+  image: alpine:latest
+  script:
+    - echo CI_REGISTRY=$CI_REGISTRY >> .env
+    - echo SERVICE_MARKETING_HTTP_PORT=$SERVICE_MARKETING_HTTP_PORT >> .env
+    - echo SERVICE_MARKETING_HTTPS_PORT=$SERVICE_MARKETING_HTTPS_PORT >> .env
+    - echo TRAEFIK_APPLICATION_FRONT_END_RULE=$PRODUCTION_TRAEFIK_APPLICATION_FRONT_END_RULE >> .env
+    - echo TRAEFIK_APPLICATION_PRIVATE_NETWORK=$PRODUCTION_TRAEFIK_APPLICATION_PRIVATE_NETWORK >> .env
+    - echo TRAEFIK_APPLICATION_PUBLIC_NETWORK=$PRODUCTION_TRAEFIK_APPLICATION_PUBLIC_NETWORK >> .env
+    - scp -r .env $PRODUCTION_SERVER_USER@$PRODUCTION_SERVER_IP:~/service/application/.env
+    - scp -r docker-compose.yml $PRODUCTION_SERVER_USER@$PRODUCTION_SERVER_IP:~/service/application/docker-compose.yml
+    - ssh $PRODUCTION_SERVER_USER@$PRODUCTION_SERVER_IP "
+        cd ~/service/application
+      ; docker login -u $GITLAB_USER_USERNAME -p $GITLAB_USER_PASSWORD $CI_REGISTRY
+      ; docker-compose pull
+      ; docker-compose stop
+      ; docker-compose rm --force
+      ; "
+    - ssh $PRODUCTION_SERVER_USER@$PRODUCTION_SERVER_IP "
+        cd ~/service/application
+      ; docker-compose -f ~/service/application/docker-compose.yml --project-name smhog up --detach
+      ; "
+    # - ssh $PRODUCTION_SERVER_USER@$PRODUCTION_SERVER_IP:~/service/application "
+    #     cd ~/service/application
+    #   ; docker system prune -af
+    #   ; docker volume prune -f
+    #   ; rm .env
+    #   ; rm docker-compose.yml
+    #   ; "
+  stage: production
+  when: manual
+
+upload marketing application bundle (production):
+  environment:
+    name: production
+  image:
+    entrypoint: [ "/bin/sh", "-c" ]
+    name: minio/mc
+  script:
+    - mc config host add smhog $PRODUCTION_CDN_URL $PRODUCTION_MINIO_ACCESS_KEY $PRODUCTION_MINIO_SECRET_KEY
+    - mc mirror cdn/public smhog/public --overwrite --remove
+  stage: production
+  when: manual

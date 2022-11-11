@@ -1,0 +1,19 @@
+
+# services
+services:
+  service.application.marketing:
+    build:
+      context: "."
+      dockerfile: "service/marketing/Dockerfile"
+    command: [ "/srv/node_modules/.bin/nodemon", "--inspect", "--legacy-watch", "/srv/serve.js" ]
+    env_file: ".env"
+    volumes:
+      - type: "bind"
+        source: "./service/marketing"
+        target: "/srv"
+      - type: "bind"
+        source: "./node_modules"
+        target: "/srv/node_modules"
+
+# version
+version: "3.7"

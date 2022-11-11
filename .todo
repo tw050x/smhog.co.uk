@@ -1,0 +1,28 @@
+- RE-ORGANISE as below
+
+smhog.co.uk/
+  .cdn/
+  .gateway/
+  .script/
+  application/
+    asset/
+    configuration/
+    component/
+    directive/
+    document/
+      desktop/
+      mobile/
+      web/
+    feature/
+    filter/
+    mixin/
+    plugin/
+    theme/
+    bootstrap.ts
+    mount.ts
+  service/
+    mailer/ - <submodule>
+    user/ - <submodule>
+  packfile.desktop.js
+  packfile.mobile.js
+  packfile.web.js

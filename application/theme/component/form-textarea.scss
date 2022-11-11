@@ -1,0 +1,29 @@
+@import "~@application/theme/color.scss";
+
+div.form-container div.form-textarea {
+  text-align: center;
+
+  textarea {
+    border: 2px solid $secondary-color;
+    box-shadow: 0 0px 5px 0 #a7a7a7;
+    font-family: 'arial';
+    font-size: 1.5rem;
+    margin: 0 1rem 1.5rem;
+    min-height: 100px;
+    padding: 1rem;
+    resize: vertical;
+    text-align: center;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    width: calc(100% - 2rem);
+
+    @media (min-width: 640px) {
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
+        box-shadow: 0 5px 15px 0 #a7a7a7;
+        transform: scale(1.025);
+      }
+    }
+  }
+}

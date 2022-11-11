@@ -1,0 +1,18 @@
+@import "~@application/theme/color.scss";
+
+#application aside.call-to-action-bar {
+  background-color: darken($white, 75%);
+  box-shadow: 0 10px 15px -15px $black;
+  color: #ffffff;
+  position: relative;
+  z-index: 3000;
+
+  div.call-to-action {
+    background-color: none;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  div.call-to-action:hover {
+    background-color: darken($white, 60%);
+  }
+}

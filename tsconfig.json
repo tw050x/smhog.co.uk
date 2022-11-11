@@ -1,0 +1,22 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2015.iterable",
+      "es2015.symbol"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2017"
+  },
+  "exclude": [
+    "**/*.specification.*",
+    "node_modules"
+  ],
+  "include": [
+    "**/*"
+  ]
+}

@@ -1,0 +1,16 @@
+@import "~@application/theme/color.scss";
+
+#application .classes .venues-map .venues-map-float .location-links .location-link {
+  background: url('/asset/image/icon/logo-flat-dark-49x49.png') no-repeat;
+  background-position: calc(100% + 24px) calc(100% + 18px);
+  border-color: $secondary-color;
+  color: $secondary-color;
+  cursor: pointer;
+  transition: background-color 0.5s ease, margin 0.5s ease, padding 0.5s ease;
+
+  &:active,
+  &:hover {
+    background-color: $primary-color;
+    border-color: darken($primary-color, 10%);
+  }
+}

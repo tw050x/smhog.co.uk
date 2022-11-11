@@ -1,0 +1,9 @@
+@import "~@application/theme/color.scss";
+
+#application aside.modal-collection {
+  z-index: 3000;
+
+  div.mask {
+    background: #ffffff;
+  }
+}

@@ -1,0 +1,24 @@
+@-webkit-keyframes halfFadeOut {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes halfFadeOut {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.halfFadeOut {
+  -webkit-animation-name: halfFadeOut;
+  animation-name: halfFadeOut;
+}

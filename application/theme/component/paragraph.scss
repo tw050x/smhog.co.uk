@@ -1,0 +1,13 @@
+@import "~@application/theme/color.scss";
+
+#application {
+  p.section-paragraph {
+    line-height: 2;
+    margin: 0 auto;
+    max-width: 100%;
+    @media (min-width: 640px) { max-width: 87.5% }
+    @media (min-width: 960px) { max-width: 800px }
+    text-align: left;
+    @media (min-width: 639px) { text-align: center; }
+  }
+}

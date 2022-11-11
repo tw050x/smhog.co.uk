@@ -1,0 +1,29 @@
+
+# networks
+networks:
+  public:
+    name: "${TRAEFIK_APPLICATION_PUBLIC_NETWORK}"
+
+# services
+services:
+  service.application.marketing:
+    command: [ "/srv/serve.js" ]
+    container_name: "service.application.marketing"
+    env_file: ".env"
+    image: "${CI_REGISTRY}/smhog.co.uk/application/marketing"
+    labels:
+      - "traefik.backend=service-application-marketing"
+      - "traefik.docker.network=${TRAEFIK_APPLICATION_PUBLIC_NETWORK}"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=${TRAEFIK_APPLICATION_FRONT_END_RULE}"
+      - "traefik.port=3000"
+      - "traefik.protocol=http"
+    networks:
+      - "public"
+    restart: "always"
+    ports:
+      - "3000"
+      - "3443"
+
+# version
+version: "3.7"

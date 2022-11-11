@@ -1,0 +1,13 @@
+{
+    "name": "South Manchester Helen O'Grady Drama Academy",
+    "short_name": "South Manchester Helen O'Grady Drama Academy",
+    "icons": [
+        {
+            "src": "/asset/image/icon/android-chrome-192x192.png?v=kP3JdrKll0",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#fec700",
+    "background_color": "#fec700"
+}

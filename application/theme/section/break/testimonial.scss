@@ -1,0 +1,90 @@
+@import "~@application/theme/color.scss";
+
+#application {
+  div.section-break {
+    div.testimonials {
+      max-height: calc(100vh - 10px);
+      padding: 30vw 0;
+      position: relative;
+
+      aside.testimonial {
+        display: block;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        @media (min-width: 960px) { width: 75%; }
+
+        span.rating {
+          display: block;
+          padding: 0 0 10px;
+          text-align: center;
+
+          i {
+            font-size: 40px;
+            @media (min-width: 640px) { font-size: 80px; }
+            background: -webkit-gradient(linear, left top, right top, from(#fec700), to(#ff9500));
+            background: linear-gradient(to right, #fec700, #ff9500);
+            background-clip: border-box;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-box-decoration-break: clone;
+            -webkit-filter: drop-shadow(0 0 2px #000000);
+            filter: drop-shadow(0 0 2px #000000);
+            @media (min-width: 960px) {
+              -webkit-filter: drop-shadow(0 0 3px #000000);
+              filter: drop-shadow(0 0 3px #000000);
+            }
+            @media (min-width: 1280px) {
+              -webkit-filter: drop-shadow(0 0 4px #000000);
+              filter: drop-shadow(0 0 4px #000000);
+            }
+          }
+        }
+
+        span.text {
+          color: #000000;
+          display: block;
+          font-family: impact, arial, sans-serif;
+          font-size: 20px;
+          @media (min-width: 960px) { font-size: 30px; }
+          @media (min-width: 1280px) { font-size: 35px; }
+          font-weight: bold;
+          line-height: 1.5;
+          overflow: hidden;
+          text-align: center;
+          text-overflow: ellipsis;
+          text-shadow: 0 0 0.2rem #ffffff, 0 0 0.2rem #ffffff;
+          white-space: nowrap;
+
+          &:after,
+          &::after,
+          &:before,
+          &::before {
+            content: '"';
+          }
+        }
+
+        span.author {
+          color: #000000;
+          display: block;
+          font-family: arial, sans-serif;
+          font-size: 15px;
+          @media (min-width: 960px) { font-size: 20px; }
+          @media (min-width: 1280px) { font-size: 22.5px; }
+          font-style: italic;
+          font-weight: bold;
+          height: 30px;
+          @media (min-width: 960px) { height: 40px; }
+          @media (min-width: 1280px) { height: 45px; }
+          padding: 15px 0 0;
+          @media (min-width: 960px) { padding: 20px 0 0; }
+          @media (min-width: 1280px) { padding: 22.5px 0 0; }
+          text-align: center;
+          text-shadow: 0 0 0.5rem #ffffff, 0 0 0.5rem #ffffff;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+
+# directories
+node_modules/
+
+# files
+environemnt.js
+serve.js
+bundle.json
+manifest.json
