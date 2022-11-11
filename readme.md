@@ -2,6 +2,12 @@
 
 This is an old site and is using node version `v12.22.12`, please downgrade to run npm install without unforseen errors.
 
+To install dependencies run
+
+```
+npm install
+```
+
 To run the application run the following snippets in separate terminal windows.
 
 ```
