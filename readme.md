@@ -8,7 +8,7 @@ To install dependencies run
 npm install
 ```
 
-To run the application run the following snippets in separate terminal windows.
+To run the application run the following snippets in separate terminal windows (ensure the terminal window for webpack-dev-server is using node `v12.22.12`).
 
 ```
 npm run webpack-dev-server
